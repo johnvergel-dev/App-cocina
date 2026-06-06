@@ -46,7 +46,7 @@ Construida con **Vue 3 + Vite + Capacitor 8**, corre como APK nativo en Android 
 ### 📖 Recetario
 - Fichas completas: ingredientes, pasos, etiquetas, dificultad, tiempo, calorías
 - Estados: **Por probar · Aprobada · Descartada** con calificación de estrellas
-- **Modo Cocina** — filtra recetas según lo que tenés en la despensa
+- **Modo Cocina** — filtra recetas según lo que tienes en la despensa
 - Filtros avanzados por dificultad, calificación, tiempo, etiquetas e ingredientes
 - Al cocinar → propone actualizar el estado de los ingredientes usados
 
