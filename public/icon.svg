@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#16a34a"/>
+  <!-- pot body -->
+  <rect x="120" y="240" width="272" height="176" rx="24" fill="white"/>
+  <!-- pot rim -->
+  <rect x="96"  y="216" width="320" height="32"  rx="12" fill="white"/>
+  <!-- left handle -->
+  <rect x="72"  y="220" width="36"  height="60"  rx="18" fill="white"/>
+  <!-- right handle -->
+  <rect x="404" y="220" width="36"  height="60"  rx="18" fill="white"/>
+  <!-- steam left -->
+  <path d="M196 208 Q208 178 196 148 Q184 118 196 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- steam center -->
+  <path d="M256 208 Q268 178 256 148 Q244 118 256 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- steam right -->
+  <path d="M316 208 Q328 178 316 148 Q304 118 316 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>
