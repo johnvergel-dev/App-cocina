@@ -35,6 +35,23 @@
     <div class="profiles-hint">
       Tocá un perfil para activarlo. Cada perfil tiene su propia despensa, recetas y métricas.
     </div>
+
+    <div class="data-section">
+      <div class="section-header"><AppIcon name="download" :size="13" /> Copia de seguridad</div>
+      <p class="data-hint">
+        Tus datos viven solo en este dispositivo. Exportá una copia (todos los perfiles) para no
+        perderlos si cambiás de teléfono o reinstalás la app.
+      </p>
+      <div class="data-actions">
+        <button class="btn-secondary" :disabled="busy" @click="doExport">
+          <AppIcon name="download" :size="16" /> Exportar copia
+        </button>
+        <button class="btn-secondary" :disabled="busy" @click="pickImport">
+          <AppIcon name="upload" :size="16" /> Importar copia
+        </button>
+      </div>
+      <input ref="fileInput" type="file" accept="application/json,.json" class="hidden-file" @change="onImportFile" />
+    </div>
   </div>
 
   <Teleport to="body">
@@ -62,15 +79,52 @@ import { ref, onMounted } from 'vue'
 import { db } from '../db/index'
 import { useProfileStore } from '../stores/profileStore'
 import { useToast } from '../composables/useToast'
+import { useBackup } from '../composables/useBackup'
 import AppIcon from '../components/AppIcon.vue'
 
 const profileStore = useProfileStore()
 const toast        = useToast()
+const { exportAll, importAll } = useBackup()
 const showForm     = ref(false)
 const editingId    = ref(null)
 const form         = ref({ name:'', dailyCalorieGoal:2000 })
+const fileInput    = ref(null)
+const busy         = ref(false)
 
 onMounted(() => profileStore.loadProfiles())
+
+async function doExport() {
+  if (busy.value) return
+  busy.value = true
+  try {
+    const { count } = await exportAll()
+    toast.success(`Copia exportada (${count} registros)`)
+  } catch {
+    toast.error('No se pudo exportar')
+  } finally { busy.value = false }
+}
+
+function pickImport() { fileInput.value?.click() }
+
+async function onImportFile(e) {
+  const file = e.target.files?.[0]
+  e.target.value = '' // allow re-selecting the same file later
+  if (!file) return
+  // Accept = destructive replace (explicit); Cancel = safe merge.
+  const replace = window.confirm(
+    'Importar copia\n\nAceptar = REEMPLAZAR todos los datos actuales por los de la copia.\n' +
+    'Cancelar = COMBINAR la copia con tus datos actuales.'
+  )
+  busy.value = true
+  try {
+    const { count } = await importAll(file, { mode: replace ? 'replace' : 'merge' })
+    await profileStore.loadProfiles()
+    await profileStore.refreshShoppingCount()
+    toast.success(`Copia importada (${count} registros)`)
+  } catch (err) {
+    toast.error(err?.message === 'Archivo no válido' ? 'Archivo no válido' : 'No se pudo importar')
+  } finally { busy.value = false }
+}
 
 function openAdd() {
   editingId.value = null

@@ -117,8 +117,10 @@
     <div v-else-if="panel === 'detail'" key="detail" class="view">
       <div class="panel-header">
         <button class="back-btn" @click="navigate('list','right')"><AppIcon name="arrow-left" :size="20" /> Recetas</button>
-        <button class="icon-btn" @click="openForm(selectedRecipe)"><AppIcon name="edit" :size="20" /></button>
+        <button class="icon-btn" aria-label="Editar receta" @click="openForm(selectedRecipe)"><AppIcon name="edit" :size="20" /></button>
       </div>
+
+      <img v-if="selectedRecipe?.photo" :src="selectedRecipe.photo" class="recipe-hero" alt="" />
 
       <h2 class="detail-title">{{ selectedRecipe?.title }}</h2>
 
@@ -192,8 +194,11 @@
       </div>
 
       <div class="detail-actions">
-        <button class="btn-primary" @click="markAsCooked"><AppIcon name="check" :size="16" /> Cocinada</button>
-        <button class="btn-danger icon-only" @click="deleteRecipe"><AppIcon name="trash" :size="18" /></button>
+        <div class="detail-actions-left">
+          <button class="btn-primary" @click="markAsCooked"><AppIcon name="check" :size="16" /> Cocinada</button>
+          <button class="btn-secondary" @click="logMeal"><AppIcon name="heart" :size="16" /> Registrar comida</button>
+        </div>
+        <button class="btn-danger icon-only" aria-label="Eliminar receta" @click="deleteRecipe"><AppIcon name="trash" :size="18" /></button>
       </div>
     </div>
 
@@ -275,6 +280,20 @@
       <label class="field-label">Notas de ajuste</label>
       <textarea v-model="form.adjustmentNotes" class="input" placeholder="Tips, cambios que hiciste…" rows="3" />
 
+      <label class="field-label">Foto del resultado (opcional)</label>
+      <div class="photo-field">
+        <div v-if="formPhoto" class="photo-preview-wrap">
+          <img :src="formPhoto" class="photo-preview" @click="capturePhoto" />
+          <button class="photo-remove-btn" aria-label="Quitar foto" @click="formPhoto = ''">
+            <AppIcon name="x" :size="13" />
+          </button>
+        </div>
+        <button v-else class="photo-capture-btn" @click="capturePhoto">
+          <AppIcon name="camera" :size="20" />
+          <span>Agregar foto</span>
+        </button>
+      </div>
+
       <button class="btn-primary save-recipe-btn" @click="saveRecipe">
         {{ editingRecipe ? 'Guardar cambios' : 'Crear receta' }}
       </button>
@@ -282,7 +301,7 @@
   </Transition>
 
   <Transition name="fab">
-    <button v-if="panel === 'list'" class="fab" @click="openForm(null)">
+    <button v-if="panel === 'list'" class="fab" aria-label="Agregar receta" @click="openForm(null)">
       <AppIcon name="plus" :size="26" />
     </button>
   </Transition>
@@ -323,15 +342,18 @@
 
 <script setup>
 import { ref, computed, onMounted, onActivated, watch } from 'vue'
+import { Capacitor } from '@capacitor/core'
 import { db } from '../db/index'
 import { useProfileStore } from '../stores/profileStore'
-import { useToast }        from '../composables/useToast'
-import { useHaptics }      from '../composables/useHaptics'
+import { useToast }            from '../composables/useToast'
+import { useHaptics }          from '../composables/useHaptics'
+import { useImageCompressor }  from '../composables/useImageCompressor'
 import AppIcon from '../components/AppIcon.vue'
 
 const profileStore = useProfileStore()
 const toast        = useToast()
 const haptics      = useHaptics()
+const { compress } = useImageCompressor()
 
 // Core state
 const recipes          = ref([])
@@ -366,6 +388,7 @@ const form            = ref(defaultForm())
 const formIngredients = ref([{ name:'', quantity:'', unit:'' }])
 const formSteps       = ref([''])
 const formTags        = ref([])
+const formPhoto       = ref('')
 const tagInput        = ref('')
 
 // Filter options
@@ -478,8 +501,9 @@ function openForm(recipe) {
     formIngredients.value = recipe.ingredients?.length ? recipe.ingredients.map(i=>({...i})) : [{name:'',quantity:'',unit:''}]
     formSteps.value  = recipe.steps?.length ? [...recipe.steps] : ['']
     formTags.value   = recipe.tags ? [...recipe.tags] : []
+    formPhoto.value  = recipe.photo || ''
   } else {
-    form.value=defaultForm(); formIngredients.value=[{name:'',quantity:'',unit:''}]; formSteps.value=['']; formTags.value=[]
+    form.value=defaultForm(); formIngredients.value=[{name:'',quantity:'',unit:''}]; formSteps.value=['']; formTags.value=[]; formPhoto.value=''
   }
   tagInput.value=''
   navigate('form')
@@ -497,6 +521,7 @@ async function saveRecipe() {
     ingredients: formIngredients.value.filter(i=>i.name.trim()),
     steps: formSteps.value.filter(s=>s.trim()),
     tags: [...formTags.value],
+    photo: formPhoto.value || null,
     adjustmentNotes: form.value.adjustmentNotes.trim()||null,
     timesCooked: editingRecipe.value?.timesCooked||0,
     lastCooked:  editingRecipe.value?.lastCooked||null,
@@ -564,6 +589,43 @@ async function addMissingToList(missing) {
   }
   await profileStore.refreshShoppingCount()
   toast.success(`${missing.length} ingrediente(s) agregados a compras`)
+}
+
+async function capturePhoto() {
+  if (!Capacitor.isNativePlatform()) { toast.info('Foto disponible solo en la app instalada'); return }
+  try {
+    const { Camera, CameraResultType, CameraSource } = await import('@capacitor/camera')
+    const photo = await Camera.getPhoto({
+      quality: 75, allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Prompt,
+      saveToGallery: false,
+    })
+    const raw = `data:image/jpeg;base64,${photo.base64String}`
+    formPhoto.value = await compress(raw, 800, 0.65) // ~20KB vs ~2MB raw
+  } catch (e) {
+    if (e?.message && !e.message.toLowerCase().includes('cancel')) {
+      toast.error('No se pudo acceder a la cámara')
+    }
+  }
+}
+
+// One-tap: log this recipe's calories as a meal in Nutrición (today, now).
+async function logMeal() {
+  const r = selectedRecipe.value
+  if (!r) return
+  if (!r.estimatedCalories) { toast.info('Agregá las calorías de la receta para poder registrarla'); return }
+  haptics.medium()
+  const now = new Date()
+  await db.meals.add({
+    profileId:   profileStore.activeProfileId,
+    date:        now.toISOString().split('T')[0],
+    time:        `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+    description: r.title,
+    calories:    r.estimatedCalories,
+    recipeId:    r.id,
+  })
+  toast.success(`${r.estimatedCalories} kcal registradas en Nutrición`)
 }
 
 // Filter helpers

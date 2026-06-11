@@ -75,7 +75,7 @@
 
   <!-- FAB -->
   <Transition name="fab">
-    <button v-if="!showAddForm" class="fab" @click="openAdd">
+    <button v-if="!showAddForm" class="fab" aria-label="Agregar a la lista" @click="openAdd">
       <AppIcon name="plus" :size="26" />
     </button>
   </Transition>

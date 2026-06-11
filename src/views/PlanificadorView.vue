@@ -2,16 +2,16 @@
   <div class="view">
     <div class="view-header no-print">
       <h2>Planificador</h2>
-      <button class="icon-btn" title="Imprimir menú" @click="printPlan">
-        <AppIcon name="shopping-bag" :size="20" />
+      <button class="icon-btn" title="Imprimir menú" aria-label="Imprimir menú" @click="printPlan">
+        <AppIcon name="printer" :size="20" />
       </button>
     </div>
 
     <!-- Week navigation -->
     <div class="week-nav no-print">
-      <button class="icon-btn" @click="weekOffset--"><AppIcon name="arrow-left" :size="20" /></button>
+      <button class="icon-btn" aria-label="Semana anterior" @click="weekOffset--"><AppIcon name="arrow-left" :size="20" /></button>
       <span class="week-label">{{ weekLabel }}</span>
-      <button class="icon-btn" @click="weekOffset++"><AppIcon name="chevron-right" :size="20" /></button>
+      <button class="icon-btn" aria-label="Semana siguiente" @click="weekOffset++"><AppIcon name="chevron-right" :size="20" /></button>
     </div>
 
     <!-- Print-only title -->
@@ -173,7 +173,14 @@ async function clearCell() {
   await persistPlan()
 }
 
-async function persistPlan() {
+// Serialize writes so two quick edits can't both see currentPlanId === null
+// and create duplicate plan rows for the same week.
+let persistChain = Promise.resolve()
+function persistPlan() {
+  persistChain = persistChain.then(doPersist, doPersist)
+  return persistChain
+}
+async function doPersist() {
   if (!profileStore.activeProfileId) return
   const record = { profileId: profileStore.activeProfileId, week: weekKey.value, assignments: { ...planData.value } }
   if (currentPlanId) await db.mealPlans.update(currentPlanId, record)

@@ -10,7 +10,7 @@
   <div class="view">
     <div class="view-header">
       <h2>Despensa</h2>
-      <button class="icon-btn" @click="toggleSearch">
+      <button class="icon-btn" aria-label="Buscar producto" @click="toggleSearch">
         <AppIcon name="search" :size="20" />
       </button>
     </div>
@@ -67,7 +67,7 @@
 
   <!-- FAB -->
   <Transition name="fab">
-    <button v-if="!showForm && !showScanner" class="fab" @click="openAddForm">
+    <button v-if="!showForm && !showScanner" class="fab" aria-label="Agregar producto" @click="openAddForm">
       <AppIcon name="plus" :size="26" />
     </button>
   </Transition>
@@ -258,10 +258,17 @@ const expiringProducts = computed(() => {
   )
 })
 
+// Empty field → default 1 ("avisame cuando quede 1 sellada"); a typed number wins.
+function normThreshold() {
+  const v = form.value.acabandoThreshold
+  if (v === '' || v === null || v === undefined || Number.isNaN(Number(v))) return 1
+  return Number(v)
+}
+
 const autoStatus = computed(() => {
   if (form.value.presentationType !== 'paquete') return form.value.status
   const sealed    = Number(form.value.sealedUnits) || 0
-  const threshold = Number(form.value.acabandoThreshold) ?? 1
+  const threshold = normThreshold()
   const openEmpty = !form.value.hasOpenUnit || !form.value.openUnit.remaining
   if (sealed === 0 && openEmpty) return 'acabado'
   if (sealed <= threshold)       return 'acabando'
@@ -371,7 +378,7 @@ async function saveProduct() {
     quantity:    form.value.presentationType === 'suelto' ? (form.value.quantity || null) : null,
     unit:        form.value.presentationType === 'suelto' ? (form.value.unit || null) : null,
     sealedUnits: form.value.presentationType === 'paquete' ? (Number(form.value.sealedUnits) || 0) : null,
-    acabandoThreshold: form.value.presentationType === 'paquete' ? (Number(form.value.acabandoThreshold) ?? 1) : null,
+    acabandoThreshold: form.value.presentationType === 'paquete' ? normThreshold() : null,
     openUnit: form.value.presentationType === 'paquete' && form.value.hasOpenUnit
       ? { ...form.value.openUnit }
       : null,

@@ -2,41 +2,57 @@
 
 :root {
   color-scheme: light;
+
+  /* Brand greens — matched to the launcher icon */
   --primary:        #16a34a;
   --primary-dark:   #15803d;   /* emphasis green TEXT on light-green chips */
-  --primary-light:  #dcfce7;
-  --primary-xlight: #f0fdf4;
+  --primary-light:  #d8f3e1;
+  --primary-xlight: #eefbf3;
   --primary-strong: #15803d;   /* solid fill that always pairs with white text */
+  --primary-grad:   linear-gradient(135deg, #1bb457 0%, #15803d 100%);
+
+  /* Warm amber accent */
   --accent:         #f59e0b;
-  --accent-light:   #fef3c7;
-  --accent-text:    var(--accent-text);   /* amber TEXT on amber chips */
-  --bg:             #f3f4f6;
+  --accent-light:   #fdf0d5;
+  --accent-text:    #b45309;   /* amber-700 — readable on amber-light chips */
+  --accent-strong:  #d97706;
+
+  /* Neutrals — faint green undertone for cohesion */
+  --bg:             #eef2f0;
+  --app-bg:         radial-gradient(125% 100% at 50% 0%, #f4f8f5 0%, #e9efeb 58%, #e3eae6 100%);
   --surface:        #ffffff;
-  --surface-2:      #f9fafb;
-  --text:           #111827;
-  --text-muted:     #6b7280;
-  --border:         #e5e7eb;
+  --surface-2:      #f4f7f5;
+  --text:           #0f1b14;
+  --text-muted:     #5d6b63;
+  --border:         #e4eae6;
+
   --danger:         #ef4444;
   --danger-dark:    #b91c1c;   /* red TEXT on red chips */
-  --danger-light:   #fee2e2;
+  --danger-light:   #fde4e4;
   --danger-strong:  #b91c1c;   /* solid fill that always pairs with white text */
-  --ring:           var(--primary-light);
-  --header-grad:    linear-gradient(135deg, #18a94e 0%, #15803d 100%);
-  --header-shadow:  0 2px 12px rgba(22,163,74,.32);
-  --scrim:          rgba(0,0,0,.45);
-  --shadow-sm:      0 1px 2px rgba(0,0,0,.06);
-  --shadow:         0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:      0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
-  --shadow-lg:      0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
-  --header-h:       56px;
-  --nav-h:          64px;
+
+  --ring:           rgba(22,163,74,.18);
+  --header-grad:    linear-gradient(135deg, #1bb457 0%, #15803d 55%, #0e6b33 100%);
+  --header-shadow:  0 6px 20px -6px rgba(13,90,45,.45);
+  --scrim:          rgba(8,20,14,.48);
+
+  /* Soft, green-tinted elevation */
+  --shadow-sm:      0 1px 2px rgba(16,40,28,.05);
+  --shadow:         0 2px 8px -2px rgba(16,40,28,.10), 0 1px 2px rgba(16,40,28,.05);
+  --shadow-md:      0 10px 24px -8px rgba(16,40,28,.16);
+  --shadow-lg:      0 22px 48px -14px rgba(16,40,28,.24);
+
+  --header-h:       60px;
+  --nav-h:          66px;
   --safe-top:       env(safe-area-inset-top, 0px);
   --safe-bottom:    env(safe-area-inset-bottom, 0px);
   --safe-left:      env(safe-area-inset-left, 0px);
   --safe-right:     env(safe-area-inset-right, 0px);
-  --radius-sm:      .375rem;
-  --radius:         .75rem;
-  --radius-lg:      1rem;
+
+  --radius-sm:      .5rem;
+  --radius:         .9rem;
+  --radius-lg:      1.25rem;
+
   --ease-spring:    cubic-bezier(0.32, 0.72, 0, 1);
   --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -49,32 +65,35 @@
 ────────────────────────────── */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --primary:        #2bd46e;
-  --primary-dark:   #7ff0a6;   /* now LIGHT — readable on dark-green chips */
-  --primary-light:  #14331f;   /* now DARK  — chip background */
-  --primary-xlight: #102b1b;
+  --primary:        #34d27a;
+  --primary-dark:   #8ff3b4;   /* now LIGHT — readable on dark-green chips */
+  --primary-light:  #15331f;   /* now DARK  — chip background */
+  --primary-xlight: #0f2a1a;
   --primary-strong: #15803d;
+  --primary-grad:   linear-gradient(135deg, #2bbf6c 0%, #17914a 100%);
   --accent:         #fbbf24;
   --accent-light:   #3a2c10;
   --accent-text:    #fcd34d;
-  --bg:             #0b0f14;
-  --surface:        #161b22;
-  --surface-2:      #1f262f;
-  --text:           #e6edf3;
-  --text-muted:     #94a3b8;
-  --border:         #2a323d;
-  --danger:         #ef4444;
+  --accent-strong:  #d97706;
+  --bg:             #0a0f0c;
+  --app-bg:         radial-gradient(125% 100% at 50% 0%, #0f1714 0%, #0a0f0c 60%);
+  --surface:        #131a16;
+  --surface-2:      #1b241e;
+  --text:           #e8f0ea;
+  --text-muted:     #93a89c;
+  --border:         #283530;
+  --danger:         #f87171;
   --danger-dark:    #fca5a5;   /* now LIGHT — readable on dark-red chips */
   --danger-light:   #3a1d1d;   /* now DARK  — chip background */
   --danger-strong:  #dc2626;
-  --ring:           rgba(43,212,110,.30);
-  --header-grad:    linear-gradient(135deg, #16a34a 0%, #0f5132 100%);
-  --header-shadow:  0 2px 14px rgba(0,0,0,.6);
-  --scrim:          rgba(0,0,0,.6);
+  --ring:           rgba(52,210,122,.28);
+  --header-grad:    linear-gradient(135deg, #167a3d 0%, #0c5530 100%);
+  --header-shadow:  0 6px 22px -8px rgba(0,0,0,.7);
+  --scrim:          rgba(0,0,0,.62);
   --shadow-sm:      0 1px 2px rgba(0,0,0,.4);
-  --shadow:         0 1px 3px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
-  --shadow-md:      0 4px 10px rgba(0,0,0,.55);
-  --shadow-lg:      0 12px 26px rgba(0,0,0,.65);
+  --shadow:         0 2px 10px -2px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:      0 12px 28px -8px rgba(0,0,0,.6);
+  --shadow-lg:      0 22px 50px -14px rgba(0,0,0,.7);
 }
 
 /* Dark-only touch-ups for hard-coded chip colours */
@@ -91,12 +110,19 @@ html, body {
   height: 100%;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  letter-spacing: -.006em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overscroll-behavior: none;
   transition: background-color .35s ease, color .35s ease;
+}
+
+/* Ambient app backdrop (sits behind the centered shell on wide screens) */
+body {
+  background: var(--app-bg) fixed;
 }
 
 #app { height: 100%; }
@@ -134,12 +160,17 @@ html, body {
   box-shadow: var(--header-shadow);
 }
 
-.app-brand { display: flex; flex-direction: column; justify-content: center; line-height: 1.1; min-width: 0; }
+.app-brand { display: flex; align-items: center; gap: .625rem; min-width: 0; }
+.app-logo {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.18);
+}
+.app-brand-text { display: flex; flex-direction: column; justify-content: center; line-height: 1.1; min-width: 0; }
 .app-kicker {
   font-size: .6875rem; font-weight: 600; letter-spacing: .02em;
-  color: rgba(255,255,255,.82);
+  color: rgba(255,255,255,.85);
 }
-.app-title { font-size: 1.125rem; font-weight: 800; letter-spacing: -.025em; }
+.app-title { font-size: 1.1875rem; font-weight: 800; letter-spacing: -.025em; }
 
 .header-actions { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
 
@@ -203,11 +234,14 @@ html, body {
   max-width: 600px;
   height: var(--nav-h);
   background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   z-index: 100;
-  box-shadow: 0 -1px 0 var(--border);
+  box-shadow: 0 -6px 24px -10px rgba(16,40,28,.20);
 }
 
 .nav-item {
@@ -398,14 +432,15 @@ html, body {
    Buttons
 ────────────────────────────── */
 .btn-primary {
-  background: var(--primary); color: white;
+  background: var(--primary-grad); color: white;
   border: none; border-radius: var(--radius-sm);
   padding: .5625rem 1.125rem;
   font-size: .9375rem; font-weight: 700;
-  cursor: pointer; transition: background .15s, transform .1s;
+  cursor: pointer; transition: filter .15s, transform .1s, box-shadow .15s;
+  box-shadow: 0 2px 8px -2px rgba(21,128,61,.5);
   -webkit-tap-highlight-color: transparent;
 }
-.btn-primary:active { background: var(--primary-strong); transform: scale(.97); }
+.btn-primary:active { filter: brightness(.95); transform: scale(.97); box-shadow: 0 1px 4px -1px rgba(21,128,61,.4); }
 
 .btn-secondary {
   background: var(--surface-2); color: var(--text);
@@ -479,19 +514,19 @@ html, body {
   position: fixed;
   bottom: calc(var(--nav-h) + 1rem);
   right: max(1rem, calc((100vw - 600px) / 2 + 1rem));
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--primary);
+  width: 58px; height: 58px;
+  border-radius: 19px;
+  background: var(--primary-grad);
   color: white;
   border: none;
-  box-shadow: 0 4px 14px rgba(22,163,74,.45);
+  box-shadow: 0 10px 24px -6px rgba(21,128,61,.55), 0 2px 6px rgba(0,0,0,.14);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: transform .15s, box-shadow .15s;
+  transition: transform .2s var(--ease-spring), box-shadow .2s;
   z-index: 50;
   -webkit-tap-highlight-color: transparent;
 }
-.fab:active { transform: scale(.9); box-shadow: 0 2px 6px rgba(22,163,74,.3); }
+.fab:active { transform: scale(.9) rotate(-6deg); box-shadow: 0 4px 12px -4px rgba(21,128,61,.5); }
 
 /* ──────────────────────────────
    Modal / bottom sheet
@@ -1021,6 +1056,13 @@ html, body {
   margin-top: .5rem; padding-top: 1rem;
   border-top: 1px solid var(--border);
 }
+.detail-actions-left { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+/* Recipe result photo (detail hero) */
+.recipe-hero {
+  width: 100%; max-height: 220px; object-fit: cover;
+  border-radius: var(--radius); margin-bottom: .75rem; display: block;
+}
 
 /* Form */
 .recipe-form { padding-bottom: 2rem; }
@@ -1260,6 +1302,18 @@ html, body {
 }
 
 /* ──────────────────────────────
+   Backup / data section
+────────────────────────────── */
+.data-section { margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.data-hint    { font-size: .8125rem; color: var(--text-muted); line-height: 1.55; margin: .25rem 0 .75rem; }
+.data-actions { display: flex; gap: .5rem; }
+.data-actions .btn-secondary {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: .4rem;
+}
+.data-actions .btn-secondary:disabled { opacity: .55; pointer-events: none; }
+.hidden-file  { display: none; }
+
+/* ──────────────────────────────
    Métricas — animated bar reveal
 ────────────────────────────── */
 .chart-svg rect.bar { transition: y .6s var(--ease-out), height .6s var(--ease-out); }
@@ -1331,6 +1385,20 @@ html, body {
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ──────────────────────────────
+   Desktop / PWA hover refinements (touch devices unaffected)
+────────────────────────────── */
+@media (hover: hover) {
+  .product-card:hover,
+  .recipe-card:hover  { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .recipe-card.dimmed:hover { transform: none; box-shadow: var(--shadow); }
+  .btn-primary:hover  { filter: brightness(1.05); }
+  .btn-secondary:hover { border-color: var(--primary); }
+  .fab:hover          { transform: translateY(-2px); }
+  .filter-tab:hover:not(.active),
+  .filter-chip:hover:not(.active) { border-color: var(--primary); color: var(--primary-dark); }
 }
 
 @media print {

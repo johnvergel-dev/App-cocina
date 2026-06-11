@@ -2,8 +2,11 @@
   <div class="app-shell">
     <header class="app-header">
       <div class="app-brand">
-        <span class="app-kicker">{{ greeting }}</span>
-        <h1 class="app-title">Mi Cocina</h1>
+        <img src="/icon.svg" class="app-logo" alt="" />
+        <div class="app-brand-text">
+          <span class="app-kicker">{{ greeting }}</span>
+          <h1 class="app-title">Mi Cocina</h1>
+        </div>
       </div>
       <div class="header-actions">
         <button

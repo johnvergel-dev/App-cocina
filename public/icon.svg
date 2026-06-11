@@ -1,17 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="112" fill="#16a34a"/>
-  <!-- pot body -->
-  <rect x="120" y="240" width="272" height="176" rx="24" fill="white"/>
-  <!-- pot rim -->
-  <rect x="96"  y="216" width="320" height="32"  rx="12" fill="white"/>
-  <!-- left handle -->
-  <rect x="72"  y="220" width="36"  height="60"  rx="18" fill="white"/>
-  <!-- right handle -->
-  <rect x="404" y="220" width="36"  height="60"  rx="18" fill="white"/>
-  <!-- steam left -->
-  <path d="M196 208 Q208 178 196 148 Q184 118 196 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
-  <!-- steam center -->
-  <path d="M256 208 Q268 178 256 148 Q244 118 256 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
-  <!-- steam right -->
-  <path d="M316 208 Q328 178 316 148 Q304 118 316 88" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1aa650"/>
+      <stop offset="1" stop-color="#137a39"/>
+    </linearGradient>
+    <radialGradient id="hl" cx="0.5" cy="0.05" r="0.85">
+      <stop offset="0"    stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#hl)"/>
+  
+    <ellipse cx="256" cy="430" rx="138" ry="15" fill="#0a4f25" opacity="0.22"/>
+    <rect x="120" y="240" width="272" height="176" rx="26" fill="#ffffff"/>
+    <rect x="96"  y="216" width="320" height="32"  rx="14" fill="#ffffff"/>
+    <rect x="70"  y="218" width="38"  height="64"  rx="19" fill="#ffffff"/>
+    <rect x="404" y="218" width="38"  height="64"  rx="19" fill="#ffffff"/>
+    <path d="M196 206 Q210 176 196 146 Q182 116 196 86" stroke="#ffffff" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M256 206 Q270 176 256 146 Q242 116 256 86" stroke="#ffffff" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M316 206 Q330 176 316 146 Q302 116 316 86" stroke="#ffffff" stroke-width="11" fill="none" stroke-linecap="round"/>
+  
 </svg>
