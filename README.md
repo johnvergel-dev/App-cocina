@@ -25,6 +25,17 @@
 
 ---
 
+> **🌐 English** · _Español abajo ↓_
+>
+> **Mi Cocina** is an offline-first mobile app & PWA to manage your pantry, recipes, shopping
+> list and daily nutrition — no account, no subscription, no servers. Everything stays on your
+> device via IndexedDB. Built with **Vue 3 · Vite · Capacitor 8**; installs as a native
+> **Android APK** or as a **PWA** from any browser.
+>
+> [⬇️ Download APK](https://github.com/johnvergel-dev/App-cocina/releases/latest) · [✨ Features](#-funcionalidades) · [🛠 Stack](#-stack)
+
+---
+
 > **Offline-first · Sin cuenta · Sin suscripción · Sin servidores · Costo \$0**
 
 **Mi Cocina** gestiona tu despensa, lista de compras, recetario y nutrición diaria
